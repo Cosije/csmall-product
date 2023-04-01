@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.SkuMapper">
+
+    <!-- int insert(Sku sku); -->
+    <insert id="insert">
+        INSERT INTO pms_sku (
+            id, spu_id, title, bar_code, attribute_template_id,
+            specifications, album_id, pictures, price, stock,
+            stock_threshold, sort
+        ) VALUES (
+            #{id}, #{spuId}, #{title}, #{barCode}, #{attributeTemplateId},
+            #{specifications}, #{albumId}, #{pictures}, #{price}, #{stock},
+            #{stockThreshold}, #{sort}
+        )
+    </insert>
+
+</mapper>

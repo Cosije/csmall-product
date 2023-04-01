@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tedu.csmall.product.mapper.AttributeTemplateMapper">
+
+    <!-- int insert(AttributeTemplate attributeTemplate); -->
+    <insert id="insert">
+        INSERT INTO pms_attribute_template (
+            name, pinyin, keywords, sort
+        ) VALUES (
+            #{name}, #{pinyin}, #{keywords}, #{sort}
+        )
+    </insert>
+
+<!--    int insertBatch(List<AttributeTemplate> attributeTemplateList);-->
+    <insert id="insertBatch"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pms_attribute_template(name,pinyin,keywords,sort)
+        VALUES <foreach collection="list" item="attribute_template" separator=",">
+        (#{attribute_template.name},#{attribute_template.pinyin},#{attribute_template.keywords},#{attribute_template.sort})
+    </foreach>
+    </insert>
+
+
+    <!-- int deleteById(Long id); -->
+    <delete id="deleteById">
+        DELETE FROM pms_attribute_template WHERE id=#{id}
+    </delete>
+
+<!--    int deleteByIds(Long[] ids)-->
+    <delete id="deleteByIds">
+        DELETE FROM pms_attribute_template WHERE id IN (
+        <foreach collection="array" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <select id="getStandardById" resultMap="StandardResultMap">
+        SELECT <include refid="StandardQueryFiles"/>
+        FROM pms_attribute_template
+        where id=#{id}
+    </select>
+    <sql id="StandardQueryFiles">
+    <if test="true">
+        id,name,pinyin,keywords,sort
+    </if>
+    </sql>
+    <resultMap id="StandardResultMap" type="cn.tedu.csmall.product.pojo.vo.AttributeTemplateStandardVO"></resultMap>
+
+    <!--    List<AttributeTemplateListItemVo> list();-->
+    <select id="list" resultMap="ListResultMap">
+        SELECT <include refid="StandardQueryFiles"/>
+        FROM pms_attribute_template ORDER BY id desc
+    </select>
+
+    <sql id="ListdQueryFiles">
+    <if test="true">
+        id,name,pinyin,keywords,sort
+    </if>
+    </sql>
+
+    <resultMap id="ListResultMap" type="cn.tedu.csmall.product.pojo.vo.AttributeTemplateListItemVO"></resultMap>
+
+    <!-- int countByName(String name); -->
+    <select id="countByName" resultType="int">
+        SELECT count(*) FROM pms_attribute_template WHERE name=#{name}
+    </select>
+
+
+
+</mapper>
